@@ -1,0 +1,114 @@
+:root {
+    --dark-blue: #0B2C4D;
+    --blue: #0E4DA4;
+    --cyan: #2EC4C6;
+    --light-cyan: #A7E9E2;
+    --white: #ffffff;
+    --gray: #e5e7eb;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #071f36, #0b3c6f);
+    color: var(--white);
+    min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.header {
+    background: linear-gradient(90deg, #0b2c4d, #0e4da4);
+    padding: 16px 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.header-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 600;
+}
+
+.logo img {
+    width: 42px;
+    height: 42px;
+}
+
+.nav {
+    display: flex;
+    gap: 24px;
+}
+
+.nav-link {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-link.highlight {
+    background: var(--cyan);
+    color: #003b3b;
+    font-weight: 500;
+}
+
+/* ===== MAIN ===== */
+.main-content {
+    padding: 60px 0;
+}
+
+/* ===== CARDS ===== */
+.card {
+    background: var(--white);
+    color: #1f2937;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+}
+
+/* ===== BUTTON ===== */
+.btn {
+    display: inline-block;
+    background: var(--cyan);
+    color: #003b3b;
+    padding: 12px 28px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(46,196,198,0.4);
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    text-align: center;
+    padding: 20px;
+    color: #cbd5e1;
+    font-size: 13px;
+}

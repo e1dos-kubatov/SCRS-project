@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('Dashboard – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<main class="container">
+  <section class="section">
+    <h1>Student Dashboard</h1>
+    <p>Welcome, <span th:text="${student.fullName}">Student Name</span>.</p>
+
+    <div class="dashboard-actions">
+      <a th:href="@{/student/submit-complaint}" class="btn btn-primary">Submit New Complaint</a>
+      <a th:href="@{/student/my-complaints}" class="btn btn-secondary">View My Complaints</a>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Recent Complaints</h2>
+    <div th:if="${#lists.isEmpty(myComplaints)}">
+      <p>You have not submitted any complaints yet.</p>
+    </div>
+
+    <div class="card-list" th:if="${!#lists.isEmpty(myComplaints)}">
+      <article class="card card-complaint" th:each="complaint : ${myComplaints}">
+        <h3 th:text="${complaint.title}">Title</h3>
+        <p class="complaint-meta">
+          <span th:text="${complaint.category}">ACADEMIC</span> ·
+          <span th:text="${#temporals.format(complaint.createdAt, 'dd.MM.yyyy HH:mm')}">01.01.2025</span>
+        </p>
+
+        <span class="status-badge"
+              th:text="${complaint.status}"
+              th:classappend="${complaint.status.name() == 'NEW'} ? ' status-new' :
+                              ${complaint.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                              ${complaint.status.name() == 'IN_PROGRESS'} ? ' status-inprogress' :
+                              ${complaint.status.name() == 'RESOLUTION_ANNOUNCED'} ? ' status-announced' :
+                              ${complaint.status.name() == 'CONFIRMED'} ? ' status-confirmed' :
+                              ' status-closed'">
+          New
+        </span>
+
+        <div class="card-footer">
+          <a th:href="@{'/student/complaints/' + ${complaint.id}}" class="btn btn-small">
+            View Details
+          </a>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('Submit Complaint – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+<main class="container">
+    <section class="section">
+        <h1>Submit Complaint</h1>
+        <p>Describe your issue clearly so the correct department can resolve it efficiently.</p>
+    </section>
+
+    <section class="section">
+        <div class="card">
+            <form th:action="@{/student/submit-complaint}"
+                  method="post"
+                  enctype="multipart/form-data"
+                  class="form">
+
+                <div class="form-group">
+                    <label for="title">Complaint Title</label>
+                    <input id="title" name="title" type="text" required
+                           placeholder="Example: Broken projector in Room B-203">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">Description</label>
+                    <textarea id="description" name="description" rows="5" required
+                              placeholder="Explain what happened, when, and where."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="" disabled selected>Select category</option>
+                        <option th:each="cat : ${categories}"
+                                th:value="${cat}"
+                                th:text="${cat}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="department">Department</label>
+                    <select id="department" name="departmentId" required>
+                        <option value="" disabled selected>Select department</option>
+                        <option th:each="dept : ${departments}"
+                                th:value="${dept.id}"
+                                th:text="${dept.name}">
+                        </option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Photo (optional)</label>
+                    <input id="photo" name="photo" type="file" accept="image/*">
+                    <p class="help-text">Attach a photo (e.g., damaged equipment or facility).</p>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-full">Submit Complaint</button>
+            </form>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

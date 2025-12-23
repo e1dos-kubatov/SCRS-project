@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<nav th:fragment="navbar" class="navbar">
+    <div class="navbar-left">
+        <a th:href="@{/static}" class="navbar-brand">SCRS</a>
+        <span class="navbar-subtitle">Student Complaint &amp; Resolution System</span>
+    </div>
+
+    <div class="navbar-right">
+        <!-- Unauthenticated -->
+        <ul th:if="${session.userId == null}">
+            <li><a th:href="@{/static}">Home</a></li>
+            <li><a th:href="@{/login}">Login</a></li>
+            <li><a th:href="@{/register}">Register</a></li>
+        </ul>
+
+        <!-- Student -->
+        <ul th:if="${session.userId != null and session.role == 'STUDENT'}">
+            <li><a th:href="@{/static}">Home</a></li>
+            <li><a th:href="@{/student/submit-complaint}">Submit Complaint</a></li>
+            <li><a th:href="@{/student/my-complaints}">My Complaints</a></li>
+            <li><a th:href="@{/student/dashboard}">Dashboard</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-outline">Logout</button>
+                </form>
+            </li>
+        </ul>
+
+        <!-- Staff/Admin -->
+        <ul th:if="${session.userId != null and (session.role == 'STAFF' or session.role == 'ADMIN')}">
+            <li><a th:href="@{/staff/dashboard}">Dashboard</a></li>
+            <li><a th:href="@{/staff/complaints}">All Complaints</a></li>
+            <li>
+                <form th:action="@{/logout}" method="post" class="inline-form">
+                    <button type="submit" class="btn btn-outline">Logout</button>
+                </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+</body>
+</html>

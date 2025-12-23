@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('Not Found – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<main class="container">
+    <section class="section section-center">
+        <h1>404 – Not Found</h1>
+        <p>The page or complaint you’re looking for does not exist or you don’t have access.</p>
+        <a th:href="@{/     }" class="btn btn-primary">Back to Home</a>
+    </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

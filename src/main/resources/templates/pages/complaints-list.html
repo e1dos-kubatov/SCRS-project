@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('All Complaints – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<main class="container">
+    <section class="section">
+        <h1>All Complaints</h1>
+        <p>Filter by category and status to manage student complaints.</p>
+    </section>
+
+    <!-- Filters -->
+    <section class="section">
+        <form th:action="@{/staff/complaints}" method="get" class="filter-form">
+            <div class="form-group-inline">
+                <label for="status">Status</label>
+                <select id="status" name="status">
+                    <option value="">All</option>
+                    <option th:each="st : ${allStatuses}"
+                            th:value="${st}"
+                            th:text="${st}">
+                    </option>
+                </select>
+            </div>
+
+            <div class="form-group-inline">
+                <label for="category">Category</label>
+                <select id="category" name="category">
+                    <option value="">All</option>
+                    <option th:each="cat : ${allCategories}"
+                            th:value="${cat}"
+                            th:text="${cat}">
+                    </option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Apply Filters</button>
+        </form>
+    </section>
+
+    <!-- Table -->
+    <section class="section">
+        <div th:if="${#lists.isEmpty(complaints)}">
+            <p>No complaints found.</p>
+        </div>
+
+        <div th:if="${!#lists.isEmpty(complaints)}" class="table-wrapper">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Title</th>
+                    <th>Student</th>
+                    <th>Category</th>
+                    <th>Status</th>
+                    <th>Created</th>
+                    <th>Photo</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="complaint : ${complaints}">
+                    <td th:text="${complaint.id}">1</td>
+                    <td th:text="${complaint.title}">Title</td>
+                    <td th:text="${complaint.student.fullName}">Student Name</td>
+                    <td th:text="${complaint.category}">ACADEMIC</td>
+                    <td>
+                        <span class="status-badge"
+                              th:text="${complaint.status}"
+                              th:classappend="${complaint.status.name() == 'NEW'} ? ' status-new' :
+                                              ${complaint.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                                              ${complaint.status.name() == 'IN_PROGRESS'} ? ' status-inprogress' :
+                                              ${complaint.status.name() == 'RESOLUTION_ANNOUNCED'} ? ' status-announced' :
+                                              ${complaint.status.name() == 'CONFIRMED'} ? ' status-confirmed' :
+                                              ' status-closed'">
+                            NEW
+                        </span>
+                    </td>
+                    <td th:text="${#temporals.format(complaint.createdAt, 'dd.MM.yyyy HH:mm')}">
+                        01.01.2025
+                    </td>
+                    <td>
+                        <img class="thumb"
+                             th:if="${complaint.photoName != null}"
+                             th:src="@{'/uploads/' + ${complaint.photoName}}"
+                             alt="Photo"/>
+                    </td>
+                    <td>
+                        <a th:href="@{'/staff/complaints/' + ${complaint.id}}" class="btn btn-small">
+                            View / Edit
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

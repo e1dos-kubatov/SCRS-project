@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('Register – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<main class="container auth-container">
+    <section class="card auth-card">
+        <h1>Student Registration</h1>
+        <p class="auth-subtitle">Create your SCRS account to submit and track complaints.</p>
+
+        <div class="alert alert-error" th:if="${registerError != null}" th:text="${registerError}">
+            Email already in use.
+        </div>
+
+        <form th:action="@{/register}" method="post" class="form">
+            <div class="form-group">
+                <label for="fullName">Full Name</label>
+                <input id="fullName" name="fullName" type="text" required placeholder="Full name">
+            </div>
+
+            <div class="form-group">
+                <label for="email">AIU Email</label>
+                <input id="email" name="email" type="email" required placeholder="you@aiu.edu">
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password" type="password" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-full">Register</button>
+        </form>
+
+        <p class="auth-footer">
+            Already have an account?
+            <a th:href="@{/login}">Login</a>
+        </p>
+    </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

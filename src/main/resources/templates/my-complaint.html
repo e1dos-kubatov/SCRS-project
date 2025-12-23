@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('My Complaints – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<main class="container">
+    <section class="section">
+        <h1>My Complaints</h1>
+        <p>All complaints you have submitted to SCRS.</p>
+    </section>
+
+    <section class="section">
+        <div th:if="${#lists.isEmpty(myComplaints)}">
+            <p>You have not submitted any complaints yet.</p>
+        </div>
+
+        <div class="complaints-grid" th:if="${!#lists.isEmpty(myComplaints)}">
+            <article class="card card-complaint" th:each="complaint : ${myComplaints}">
+                <h2 th:text="${complaint.title}">Title</h2>
+
+                <p class="complaint-meta">
+                    <span th:text="${complaint.category}">FACILITY</span> ·
+                    <span th:text="${#temporals.format(complaint.createdAt, 'dd.MM.yyyy HH:mm')}">Date</span>
+                </p>
+
+                <div class="complaint-image-preview" th:if="${complaint.photoName != null}">
+                    <img th:src="@{'/uploads/' + ${complaint.photoName}}" alt="Complaint photo">
+                </div>
+
+                <span class="status-badge"
+                      th:text="${complaint.status}"
+                      th:classappend="${complaint.status.name() == 'NEW'} ? ' status-new' :
+                                      ${complaint.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                                      ${complaint.status.name() == 'IN_PROGRESS'} ? ' status-inprogress' :
+                                      ${complaint.status.name() == 'RESOLUTION_ANNOUNCED'} ? ' status-announced' :
+                                      ${complaint.status.name() == 'CONFIRMED'} ? ' status-confirmed' :
+                                      ' status-closed'">
+                    New
+                </span>
+
+                <div class="card-footer">
+                    <a th:href="@{'/student/complaints/' + ${complaint.id}}" class="btn btn-small">
+                        View Details
+                    </a>
+
+                    <form th:if="${complaint.status.name() == 'RESOLUTION_ANNOUNCED'}"
+                          th:action="@{'/student/complaints/' + ${complaint.id} + '/confirm'}"
+                          method="post"
+                          class="inline-form">
+                        <button type="submit" class="btn btn-success btn-small">
+                            Confirm Resolution
+                        </button>
+                    </form>
+                </div>
+            </article>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

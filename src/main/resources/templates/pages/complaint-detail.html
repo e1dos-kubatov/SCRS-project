@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{header :: head('Complaint Details – SCRS')}"></head>
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<main class="container">
+    <section class="section">
+        <h1 th:text="${complaint.title}">Complaint Title</h1>
+        <p class="complaint-meta">
+            Category:
+            <span th:text="${complaint.category}">ACADEMIC</span>
+            &nbsp;·&nbsp;
+            Submitted by
+            <span th:text="${complaint.student.fullName}">Student Name</span>
+        </p>
+
+        <span class="status-badge"
+              th:text="${complaint.status}"
+              th:classappend="${complaint.status.name() == 'NEW'} ? ' status-new' :
+                              ${complaint.status.name() == 'ASSIGNED'} ? ' status-assigned' :
+                              ${complaint.status.name() == 'IN_PROGRESS'} ? ' status-inprogress' :
+                              ${complaint.status.name() == 'RESOLUTION_ANNOUNCED'} ? ' status-announced' :
+                              ${complaint.status.name() == 'CONFIRMED'} ? ' status-confirmed' :
+                              ' status-closed'">
+            Status
+        </span>
+    </section>
+
+    <section class="section">
+        <div class="card">
+            <h2>Description</h2>
+            <p th:text="${complaint.description}">
+                Description here...
+            </p>
+
+            <div class="complaint-image-full" th:if="${complaint.photoName != null}">
+                <img th:src="@{'/uploads/' + ${complaint.photoName}}" alt="Complaint photo">
+            </div>
+        </div>
+    </section>
+
+    <section class="section" th:if="${complaint.resolutionNote != null}">
+        <div class="card card-resolution">
+            <h2>Resolution Note</h2>
+            <p th:text="${complaint.resolutionNote}">Resolution text...</p>
+        </div>
+    </section>
+</main>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>
